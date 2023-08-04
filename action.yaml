@@ -12,7 +12,13 @@ inputs:
     description: "The cluster where we want to deploy the app"
   aws-region:
     required: true
-    description: "The region of the cluster"
+    description: "The region of the cluster"  
+  secret_file:
+    description: 'The path to the secret file'
+    required: true
+  config_file:
+    description: 'The path to the configuration file'
+    required: true  
 
 runs:
   using: "composite"
@@ -32,6 +38,17 @@ runs:
     run: |
       curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
       sudo mv kustomize /usr/local/bin/
+  - name: Create secrets file
+    shell: bash
+    run: |
+      cd ./k8s
+      cat ${{ inputs.secret_file }} > secret.env
+
+  - name: Create ConfigMap file
+    shell: bash
+    run: |
+      cd ./k8s
+      cat ${{ inputs.config_file }} > configmap.env    
 
   - name: Kustomize build & apply
     shell: bash
