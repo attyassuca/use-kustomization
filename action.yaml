@@ -12,13 +12,13 @@ inputs:
     description: "The cluster where we want to deploy the app"
   aws-region:
     required: true
-    description: "The region of the cluster"  
+    description: "The region of the cluster"
   secret_file:
     description: 'The path to the secret file'
     required: true
   config_file:
     description: 'The path to the configuration file'
-    required: true  
+    required: true
 
 runs:
   using: "composite"
@@ -29,7 +29,7 @@ runs:
       # Actions can't access to secrets so i pass them in as inputs
       aws-access-key-id: ${{ inputs.aws-access-key-id }}
       aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
-      aws-region: ${{ inputs.aws.region }}
+      aws-region: ${{ inputs.aws-region }}
   - name: update kube config
     shell: bash
     run: aws eks update-kubeconfig --name ${{ inputs.aws-cluster-name }} --region ${{ inputs.aws-region }}
@@ -48,8 +48,8 @@ runs:
     shell: bash
     run: |
       cd ./k8s
-      cat ${{ inputs.config_file }} > configmap.env    
-
+      cat ${{ inputs.config_file }} > configmap.env   
+      
   - name: Kustomize build & apply
     shell: bash
     run: |
