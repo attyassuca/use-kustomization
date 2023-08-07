@@ -41,7 +41,7 @@ runs:
   - name: Create secrets file
     shell: bash
     run: |
-      echo "${input.secret_file}"
+      echo "${{ inputs.secret_file }}"
   #   cat ${{ inputs.secret_file }} > secret.env
 
   #- name: Create ConfigMap file
