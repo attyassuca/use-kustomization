@@ -44,6 +44,10 @@ runs:
       cat ${{ inputs.secret_file }}
       cat ${{ inputs.secret_file }} > secret.env
       cat secret.env
+  - name: show secret file
+    shell: bash
+    run: |
+      cat secret.env    
 
   - name: Create ConfigMap file
     shell: bash
