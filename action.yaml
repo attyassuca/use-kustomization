@@ -41,6 +41,7 @@ runs:
   - name: Create secrets file
     shell: bash
     run: |
+      echo "input.secret_file"
       cat ${{ inputs.secret_file }} > secret.env
 
   - name: Create ConfigMap file
@@ -48,7 +49,7 @@ runs:
     run: |
       cat ${{ inputs.config_file }} > configmap.env   
       
-  - name: Kustomize build & apply
-    shell: bash
-    run: |
-      kustomize build . | kubectl apply -f -
+  #- name: Kustomize build & apply
+  # shell: bash
+  # run: |
+  #    kustomize build . | kubectl apply -f -
