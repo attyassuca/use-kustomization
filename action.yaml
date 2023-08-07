@@ -42,12 +42,12 @@ runs:
     shell: bash
     run: |
       cat ${{ inputs.secret_file }}
-      echo " ${{ inputs.secret_file }} " > secret.env
+      cat ${{ inputs.secret_file }} > secret.env
 
   - name: Create ConfigMap file
     shell: bash
     run: |
-      echo " ${{ inputs.config_file }} " > configmap.env   
+      cat ${{ inputs.config_file }} > configmap.env   
       
   - name: Kustomize build & apply
    shell: bash
