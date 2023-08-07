@@ -41,13 +41,11 @@ runs:
   - name: Create secrets file
     shell: bash
     run: |
-      cd ./k8s
       cat ${{ inputs.secret_file }} > secret.env
 
   - name: Create ConfigMap file
     shell: bash
     run: |
-      cd ./k8s
       cat ${{ inputs.config_file }} > configmap.env   
       
   - name: Kustomize build & apply
