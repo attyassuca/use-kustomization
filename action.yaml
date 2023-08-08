@@ -41,6 +41,7 @@ runs:
   - name: Create Secret file
     env:
       SECRETS: '${{ toJson(secrets) }}'
+    shell: bash  
     run: |
       cd ./k8s
       touch secret.env
