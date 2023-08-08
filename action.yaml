@@ -41,7 +41,6 @@ runs:
   - name: Create Secret file
         env:
           SECRETS: '${{ toJson(secrets) }}'
-        working-directory: ./k8s
         run: |
           touch secret.env
           for secret in $(echo "$SECRETS" | jq -r 'keys[]'); do
