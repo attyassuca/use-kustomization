@@ -43,7 +43,6 @@ runs:
       SECRETS: '${{ toJson(secrets) }}'
     shell: bash  
     run: |
-      cd ./k8s
       touch secret.env
       for secret in $(echo "$SECRETS" | jq -r 'keys[]'); do
       value="$(jq -r --arg key "$secret" '.[$key]' <<< "$SECRETS")"
