@@ -13,12 +13,6 @@ inputs:
   aws-region:
     required: true
     description: "The region of the cluster"
-  secret_file:
-    description: 'The path to the secret file'
-    required: true
-  config_file:
-    description: 'The path to the configuration file'
-    required: true
 
 runs:
   using: "composite"
@@ -39,9 +33,10 @@ runs:
       curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
       sudo mv kustomize /usr/local/bin/
   - name: Create Secret file
-        env:
-          SECRETS: '${{ toJson(secrets) }}'
-        run: |
+    shell: bash
+    env:
+        SECRETS: '${{ toJson(secrets) }}'
+    run: |
           touch secret.env
           for secret in $(echo "$SECRETS" | jq -r 'keys[]'); do
             value="$(jq -r --arg key "$secret" '.[$key]' <<< "$SECRETS")"
