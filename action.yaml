@@ -34,7 +34,7 @@ runs:
       sudo mv kustomize /usr/local/bin/
 
 
-  - name: Kustomize build & apply
-    shell: bash
-    run: |
-      kustomize build . | kubectl apply -f -
+  #- name: Kustomize build & apply
+  #  shell: bash
+  #  run: |
+  #    kustomize build . | kubectl apply -f -
