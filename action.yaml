@@ -13,6 +13,12 @@ inputs:
   aws-region:
     required: true
     description: "The region of the cluster"
+  config-json:
+    description: 'Configuration values, in JSON format'
+    required: true
+  secrets-json:
+    required: true 
+    description: 'Secrets values, in JSON format'
 
 runs:
   using: "composite"
@@ -32,6 +38,13 @@ runs:
     run: |
       curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
       sudo mv kustomize /usr/local/bin/
+  - name: Create secrets file
+    run: |
+        echo '${{ inputs.secrets-json }}' | jq -r 'to_entries[] | "\(.key)=\(.value)"' > secret.env
+
+  - name: Create ConfigMap file
+    run: |
+        echo '${{ inputs.config-json }}' | jq -r 'to_entries[] | "\(.key)=\(.value)"' > configmap.env    
 
 
   #- name: Kustomize build & apply
