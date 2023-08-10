@@ -1,5 +1,5 @@
 name: "Deploy using kustomize"
-description: "Deploy using kustomize to AWS S3"
+description: "Deploy using kustomize to AWS K8S"
 inputs:
   secrets:
     required: true
