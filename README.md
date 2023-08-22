@@ -8,6 +8,10 @@ This composite action deploys an application to an AWS EKS cluster using kustomi
 
 **Required** A JSON object containing all the secrets needed for deployment.
 
+### `vars`
+
+**Required** A JSON object containing all the vars needed for deployment.
+
 ### `aws-secret-access-key`
 
 **Required** The AWS secret access key used to authenticate with AWS.
@@ -35,9 +39,10 @@ The path to the manifest files. Defaults to `.`.
   uses: TrouveTaVoie/use-kustomization@main
   with:
     secrets: ${{ toJson(secrets) }}
+    vars: ${{ toJson(vars) }}
     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
     aws-cluster-name: ${{ vars.AWS_CLUSTER_NAME }}
     aws-region: ${{ vars.AWS_REGION }}
-    path: ./manifests
+    path: ./manifests "where your store your manifest files"
 

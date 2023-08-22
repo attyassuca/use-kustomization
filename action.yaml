@@ -1,6 +1,9 @@
 name: "Deploy using kustomize"
 description: "Deploy using kustomize to AWS K8S"
 inputs:
+  vars:
+    required: true
+    description: "grab all the vars as a json format"
   secrets:
     required: true
     description: "grab all the secrets as a json format"
@@ -51,7 +54,29 @@ runs:
         value="$(jq -r --arg key "$secret" '.[$key]' <<< "$SECRETS")"
         echo "$secret=$value" >> secret.env
       done
-      
+
+  - name : Check if secret.env is empty
+    working-directory: ${{ inputs.path }}
+    shell: bash
+    run: |
+      if [[ ! -s secret.env ]]; then
+        echo "Warn: secret.env is empty"
+        exit 1
+      fi
+
+  - name: Append Github Vars to ConfigMap
+    working-directory: ${{ inputs.path }}
+    env:
+      VARS: '${{ inputs.vars }}'
+    shell: bash  
+    run: |
+          for vars in $(echo "$VARS" | jq -r 'keys[]'); do
+            if [[ ! "$vars" =~ ^AWS_ ]]; then
+              value="$(jq -r --arg key "$vars" '.[$key]' <<< "$VARS")"
+              echo -e "\n$vars=$value" >> configmap.env
+            fi
+          done        
+
   - name: Kustomize build & apply
     shell: bash
     run: |
