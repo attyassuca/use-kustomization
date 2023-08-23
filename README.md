@@ -30,7 +30,7 @@ This composite action deploys an application to an AWS EKS cluster using kustomi
 
 ### `path`
 
-The path to the manifest files. Defaults to `.`.
+The path to the manifest files. Defaults to `.`  , Your kustomization.yaml file should be included in the path .
 
 ## Example usage
 
@@ -44,5 +44,5 @@ The path to the manifest files. Defaults to `.`.
     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
     aws-cluster-name: ${{ vars.AWS_CLUSTER_NAME }}
     aws-region: ${{ vars.AWS_REGION }}
-    path: ./manifests "where your store your manifest files"
+    path: ./manifests
 
