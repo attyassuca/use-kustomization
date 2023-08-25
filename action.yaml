@@ -58,7 +58,6 @@ runs:
       done
         if [[ ! -s secret.env ]]; then
           echo "Error: secrets.env is empty"
-          exit 1
         fi
 
   - name: Append Github Vars to ConfigMap
@@ -75,6 +74,7 @@ runs:
       done        
 
   - name: Kustomize build & apply
+    working-directory: ${{ inputs.path }}
     shell: bash
     run: |
       kustomize build . | kubectl apply -f -
